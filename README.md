@@ -49,6 +49,28 @@ Keep port forwarding active. In another terminal, run `curl -i http://127.0.0.1:
 
 The Deployment still requested three replicas, so its ReplicaSet created a replacement Pod automatically. The replacement had a new name and passed its HTTP readiness probe. The other two Pods kept running, and the Deployment returned to three Ready replicas.
 
+## Jenkins CI and Harness deployment
+
+Jenkins checks out this repository, builds the Docker image, tests the
+served page against index.html, and pushes the image to Docker Hub.
+
+- Jenkins job: `student-jenkins-migration`
+- Verified image: `tumenta3322/student-management:jenkins-7`
+- Pipeline definition: `Jenkinsfile`
+- Harness deployment manifests: `harness/`
+
+### Harness progress
+
+A Kubernetes runtime test succeeded in Harness execution #9.
+
+Application deployment remains blocked. Execution #10 failed during
+Initialize with HTTP 422 because five generated containers had empty
+image fields. Log ordering suggests these belong to the rolling-deployment
+actions; the exact cause remains under investigation.
+
+Harness support ticket: #133548.
+
+The complete Jenkins-to-Harness delivery workflow is not yet verified.
 ## Author
 
 Franklin Tumenta
